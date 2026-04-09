@@ -8,7 +8,7 @@
 
 **API Reference Link:** \[URL]
 
-**Build Link:** \[URL or Embed]
+[**Build Link**](https://gingerprogrammer.itch.io/plunder-party)
 
 **Video Demonstration Link:** \[URL or Embed]
 
@@ -58,7 +58,29 @@ I also looked into the UE5 Physics based animation (Physics Driven Animation in 
 
 Going down this rabbit hole was very useful for the project and learning about ragdolls as a whole as one of the main draws of the game similar to a game like TABS (Totally Accurate Battle Simulator, s.d.) and knowing what types of ragdolls are out there and the techincal infomation around them allowed me to be better informed of what I would end up using on the game created. In the end I went for somewhere between a hybrid ragdoll for general moving around and using of the player and a passive ragdoll for when I wanted to show some real impact when player would get hit off the map in the minigames. This will be done with a combination of unreals physics based animation and normal ragdoll physics on the charecters mesh controlled though blueprints to get the correct effect
 
+### Modular Unreal Techniques 
 
+While working on unreal for this larger scale project I looked into how to make my project more scalable on unreal and how to make it easyier for other developers to work with my code as with this project I would have another developer working on it along side myself so ensuring the code I made was not only good for me to use but someone else was vital to the success of the project. Towards the goal I did some research into how coding practices like OOP translated into unreal and to my surprise they translated quite well.
+
+![](https://file.garden/aSY-yx_ZmANpQe1l/PlunderParty/BPI_Player)
+
+Figma 5 - BPI_Player interface used in project
+
+![](https://file.garden/aSY-yx_ZmANpQe1l/PlunderParty/interface-result-cs.png)
+
+Figma 6 - Microsoft example of more conventional interface 
+
+Some of this features that unreal engine has include interface intergration which was fairly useful during the projects lifecycle.
+
+Interfaces (Interfaces vs Abstract Classes, s.d.) are best described as a type of contract that can be given to a class that the class must follow to exist. The most conventional utalization of interfaces is to give a common functionality across mutiple classes by making an interface of methods related to whatever functionality its describing and giving this interface to the classes that need this function. An important distinction to made with interfaces is that they don't define what the method actually does only the name and input/output parameters of the method this means that each class that has this interface can have there own code for what that function means when called. This now means that when you call an interface it does not actually know what code is going to be run and just expects that the declaration for that method will do what it needs to do. For a real world example when interaction systems are being made you can either have it so each class in your scene that needs to interact is handled indivualy meaning that you need to check for each class indivualy and write new code for each class being added which can work for small scale projects. However for larger scale projects typcially an interface is used as now instead of doing that you can have a interface called "Interactable" for example and have this contain a method called "Interact" and now each class that needs to be interacted with can have this interface and define what interacting means to that class seperate from the player. Now when the player wants to interact with something it can just grab the object and cast it to the interface if it can and then run that "Interact" method and for additional simplicity the interface can just have the "Interact" func pass the player parameter for the function and then if the player can also be checked and altered inside each class using the interface.  
+
+expecially due to how unreal has some useful inbuilt functionality that makes interfaces more easy and useful to use in unreal than in conventional programming as some of the more difficult parts of using interfaces are abstracted behind unreals systems. One of this being how unreal treats and interface method call. In conventional programming like C# for an example (generalizing for simplicity) to call an interface function you have to first test if the class even has that interface which can be done by running a compination of differnt checks on that class before being able to grab that class as its interface and then run that method, this can sometimes cause problems in those inbetween stages because even if a interface does not care what the class actualy does inside the function, for the code to run the interface refernce does have to be valid meaning in some cases this can throw errors that need to be fixed. However in unreal this part of interfaces is abstracted to a level treating interface function calls almost like if you were to call an event. 
+
+![](https://file.garden/aSY-yx_ZmANpQe1l/PlunderParty/GetPlayer)
+
+Figma 7 - Example of interface method call in UE5
+
+In unreal when you want to call a interface function all you have to do is get the node by typing whatever its name is, grabbing it like any normal node and passing in the target actor in the scene. Now unreal here will do all of those checks in the backend without you the developer needing to do anything extra and the best part is that in the circumstance that the target does not posses the interface, as it is treating this as something similar to an event call rather than a direct function call, the code will just ignore it and keep going without throwing any game breaking errors. Additionally if like in the Figma above your interface method returns something you can just pass that value into a "isValid" macro to see if anything returned and respond appropiately so even in that circumstance there is still a way of being sure you have the data you need when you need it. 
 
 ## Implementation *(Approx. 30–40% of word count)*
 
@@ -153,6 +175,9 @@ Totally Accurate Battle Simulator (s.d.) At: https://landfall.se/totally-accurat
 Physics Driven Animation in Unreal Engine | Unreal Engine 5.7 Documentation | Epic Developer Community (s.d.) At: https://dev.epicgames.com/documentation/en-us/unreal-engine/physics-driven-animation-in-unreal-engine (Accessed  25/03/2026).
 
 Unreal Engine 5 (s.d.) At: https://www.unrealengine.com/en-US/unreal-engine-5 (Accessed  25/03/2026).
+
+Interfaces vs Abstract Classes (s.d.) At: https://www.geeksforgeeks.org/videos/interfaces-vs-abstract-classes/ (Accessed  09/04/2026).
+
 
 ---
 
