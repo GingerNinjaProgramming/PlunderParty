@@ -6,8 +6,6 @@
 
 **Student IDs:** 2500411
 
-**API Reference Link:** \[URL]
-
 [**Build Link**](https://gingerprogrammer.itch.io/plunder-party)
 
 **Video Demonstration Link:** \[URL or Embed]
@@ -49,7 +47,7 @@ There is a couple of different ragdoll types and they all behave differently fro
 ![](https://file.garden/aSY-yx_ZmANpQe1l/PlunderParty/TABSRagdoll.gif)
 Figma 3 - Tabs (Totally Accurate Battle Simulator, s.d.) Active Ragdoll
 
-Next and likely the most common type of ragdoll is the active ragdoll this type uses a combination moter driven joints and physics to attempt to mimic a spesfic pose or animation instead of going completly limp, this gives the charecter a puppet on strings type effect where they are controlled by the envioment around them but can still move around the stage like something is holding them up while giving physics based reactions the objects around them. These forces pulling and pushing on the ragdoll can be configured and changed to change how the ragdoll reacts around the world they are in going from a basic puppet on strings to a more bouncy spring like ragdoll which can move and hit the ground but will never completly fall. This can be used in combination with inverse kineamatics and other animation tricks to animate the charecter based on the state of the ragdoll and make some movements look cleaner
+Next and likely the most common type of ragdoll is the active ragdoll this type uses a combination moter driven joints and physics to attempt to mimic a specific pose or animation instead of going completly limp, this gives the charecter a puppet on strings type effect where they are controlled by the envioment around them but can still move around the stage like something is holding them up while giving physics based reactions the objects around them. These forces pulling and pushing on the ragdoll can be configured and changed to change how the ragdoll reacts around the world they are in going from a basic puppet on strings to a more bouncy spring like ragdoll which can move and hit the ground but will never completly fall. This can be used in combination with inverse kineamatics and other animation tricks to animate the charecter based on the state of the ragdoll and make some movements look cleaner
 
 ![](https://file.garden/aSY-yx_ZmANpQe1l/PlunderParty/PhysicsAnimation.gif)
 Figma 4 - Example of Physics based animation in UE5 (Unreal Engine 5, s.d.)
@@ -80,9 +78,9 @@ Interfaces are treated a bit differntly in unreal with some useful inbuilt funct
 
 Figma 7 - Example of interface method call in UE5
 
-In unreal when you want to call a interface function all you have to do is get the node by typing whatever its name is, grabbing it like any normal node and passing in the target actor in the scene. Now unreal here will do all of those checks in the backend without you the developer needing to do anything extra and the best part is that in the circumstance that the target does not posses the interface, as it is treating this as something similar to an event call rather than a direct function call, the code will just ignore it and keep going without throwing any game breaking errors. Additionally if like in the Figma above your interface method returns something you can just pass that value into a "isValid" macro to see if anything returned and respond appropiately so even in that circumstance there is still a way of being sure you have the data you need when you need it. 
+In unreal when you want to call a interface function all you have to do is get the node by typing whatever its name is, grabbing it like any normal node and passing in the target actor in the scene. Now unreal here will do all of those checks in the backend without you the developer needing to do anything extra and the best part is that in the circumstance that the target does not posses the interface, as it is treating this as something similar to an event call rather than a direct function call, the code will just ignore it and keep going without throwing any game breaking errors. Additionally if like in the Figma above your interface method returns something you can just pass that value into a "isValid" macro to see if anything returned and respond appropriately so even in that circumstance there is still a way of being sure you have the data you need when you need it. 
 
-## Implementation *(Approx. 30–40% of word count)*
+## Implementation
 
 ### Process
 
@@ -160,44 +158,152 @@ Figma 19 - Image of Testing KO Launch
 
 Now if the players down percentage is max this should full ragdoll launch the player as a type of KO. This is done by first setting the charecter to full ragdoll making them a active ragdoll fully limb and then appling a massive impulse directly to the now limb charecter mesh. Both of thse outputs call a on down power changed event once their function is over to allow the down power to update based on the change at the start of this event.
 
+![](https://file.garden/aSY-yx_ZmANpQe1l/PlunderParty/DeathTracor.png)
 
+Figma 20 - Image of Kill Box Code
 
-## Testing *(Approx. 10–15% of word count)*
+![](https://file.garden/aSY-yx_ZmANpQe1l/PlunderParty/KillBox.png)
 
-### What testing methods did you use?
+Figma 21 - Debug of Kill Box (Exagerated for effect)
 
-* Did you conduct internal testing, peer testing, or user testing?
-* What were your key goals in testing?
-* What did you observe or learn from testing?
-* How did testing influence the final result?
+After this I worked on having a way to actually eliminate the players when they leave the map bounds by creating a kill box that could delete the player when it leaves the bounds of the map and also ensures that it doesnt full kill the player when the game has not started. Additionally due to how the game treats the player it had be ensured that it checked if the player had left via its mesh not its capsule collider otherwise it could cause elminations when the player was still in bounds. This was done by first using a cast to validate if whatever has left the range of the collider was a mesh, using the pure version of the cast as I only need the boolean.
 
-You may include screenshots, graphs, tables, or embedded videos to demonstrate tests and results.
+![](https://file.garden/aSY-yx_ZmANpQe1l/PlunderParty/BPI_Player)
 
-| Tester | Platform | Device Specs           | Test Type      | Bugs Found | Avg. FPS | Severity (1–5) | Repro Steps Provided | Feedback Summary                                                       |
-| ------ | -------- | ---------------------- | -------------- | ---------- | -------- | -------------- | -------------------- | ---------------------------------------------------------------------- |
-| User A | Chrome   | i7, GTX 1060, 16GB RAM | Internal (Dev) | 3          | 60       | 2, 3, 4        | Yes                  | “Controls are responsive. Minor stutter near large particle emitters.” |
-| User B | Firefox  | Ryzen 5, 8GB RAM       | Peer Playtest  | 2          | 58       | 1, 2           | No                   | “Menu system works well, but level loading feels slow.”                |
-| User C | Edge     | i5, Intel UHD 620      | External User  | 5          | 45       | 2, 3, 4, 3, 2  | Yes                  | “Performance drops during explosions; some UI overlaps text.”          |
-| User D | Chrome   | M1 MacBook Air         | Guided Test    | 1          | 62       | 2              | Yes                  | “Tutorial is clear. Suggested adding a visual checkpoint marker.”      |
-| User E | Safari   | iPhone 12 Safari       | Blind Test     | 4          | 50       | 2, 3, 3, 4     | Partial              | “Enjoyed art style. Unclear level goals; needed more on-screen hints.” |
+Figma 22 - BPI_Player interface used as seen in (Figma 5)
 
-*Figure 4: User Testing Data.*
+![](https://file.garden/aSY-yx_ZmANpQe1l/PlunderParty/BPI_GameMode.png)
 
----
+Figma 23 - BPI_GameMode interface used
 
-## Critical Reflection *(Approx. 10–15% of word count)*
+![](https://file.garden/aSY-yx_ZmANpQe1l/PlunderParty/GetPlayerImp.png)
 
-### What went well?
+Figma 24 - Implementation of GetPlayer From Player interface
 
-* What strengths or successes stood out in the final piece?
-* Did anything exceed expectations?
+![](https://file.garden/aSY-yx_ZmANpQe1l/PlunderParty/HasGameStarted.png)
 
-### What could be improved or done differently next time?
+Figma 25 - Implementation of HasGameStarted From Gamemode interface
 
-* Were there things that didn’t work? Why?
-* What would you try differently with more time or resources?
+After this checking at the same time a player actor had also left the collider using the "GetPlayer" function on the "BPI Player" interface which does that returning the player actor the interface is on if any. Due to the mentioned mechanics on interfaces prior, we run a "IsValid" on the returned player to verify that we have actually got a player charecter. Then a safty check is ran to ensure this player is actually being controlled and using the "HasGameStarted" method attached to a interface attached to the gamemode. Then if all of these conditions are true it destroys the player actor, importantly not destroying the player controller in case that players needs to be able to do something for any miriad of reasons. If game has not started it resets the player to the starting position bringing them back to the platform
 
----
+![](https://file.garden/aSY-yx_ZmANpQe1l/PlunderParty/Mario_Party_4_Cheep_Cheep_Sweep.gif)
+
+Figma 26 - Gameplay of inspiration of Game 2
+
+Then as for this project I was not tasking with doing the code around the HUD I moved onto creating the mechanics for the second minigame, this game being the pickupathon game, where you had to collect coins and put them into a chest similar to the cheep cheep sweep game from the mario party games. The player with the most at the end wins.  
+
+![](https://file.garden/aSY-yx_ZmANpQe1l/PlunderParty/BPI_Interactable.png)
+
+Figma 27 - Interact Function in interface
+
+![](https://file.garden/aSY-yx_ZmANpQe1l/PlunderParty/InteractingFunction.png)
+
+Figma 28 - Interaction Function in Blueprint Component
+
+This began with making a modular component based interaction system in unreal using a combination of a interactor component and interactable interface to allow for easy repeatable and scalable creation of this system. For sake of simplicity I used a sphere trace to facilate the interaction, using a custom one I made which behaves the exact same but has a debug feature to see the sphere, then after checking if it hit anything it attempts to cast that result to the interacble interface and using that reference it runs its interact method passing the player actor as a input. After this in both circumstances a boolean is returned to show if anything happened and then interface refernce is also returned in case the actor running the method needs to cache the reference for whatever reason.
+
+![](https://file.garden/aSY-yx_ZmANpQe1l/PlunderParty/InteractOnItem.png)
+
+Figma 29 - Interact method on BP_Item
+
+Now on the item that is being interacted with this code above is ran trying to set the item on the interactor as itself using another interface refernce that will be discussed in a moment and then if it has been given to the interactor it destroys its self.
+
+![](https://file.garden/aSY-yx_ZmANpQe1l/PlunderParty/HeldVar.png)
+![](https://file.garden/aSY-yx_ZmANpQe1l/PlunderParty/GetItem.png)
+![](https://file.garden/aSY-yx_ZmANpQe1l/PlunderParty/SetItem.png)
+![](https://file.garden/aSY-yx_ZmANpQe1l/PlunderParty/HoldingItem.png)
+![](https://file.garden/aSY-yx_ZmANpQe1l/PlunderParty/ClearItem.png)
+
+Figma 30 - All Function declarations from BPI_ItemHoldable interface on Player and Held Item Variable Soft Ref
+
+The "TrySetItem" works by taking in a BP_Item reference and first using another function to check that the player is not currently holding an item terminating the function if the player is, this is why the name is prefaced with Try, but if the player is not holding an item it does a combination of a couple things to both logically give the player the item and visually. The logical element is setting the Held item variable to the item thats trying to be picked up and then the visual element is setting a static mesh in the players hands to the mesh of the item being picked up.
+
+![](https://file.garden/aSY-yx_ZmANpQe1l/PlunderParty/InteractItemBox.png)
+
+Figma 31 - Item Box Version of interact function
+
+Now to ensure we can actually put the item inside of one of the boxes, the boxes also have there own implementation of interaction interface with a bit more going on that the base items. So in order:
+
+* First the Player Controller is casted to
+* The Player controller ID is compared against the ID that the box listens to 
+* The Interacter parameter is casted to the BPI_Itemholdable interface
+* The Item on the interactor is grabbed checking if it has any item using the "TryGetItem"
+* If check passes true it adds that items data to the boxes array of items
+* The orginal item is cleared from the ItemHoldable
+
+![](https://file.garden/aSY-yx_ZmANpQe1l/PlunderParty/MinigameTwoStartTimer.png)
+
+Figma 32 - Timer for Minigame two on GameStart
+
+After this I needed to create an end game condition with a time in this minigames game mode. To create the game timer for this minigame I used the "SetTimerByEvent" Function tied to the end game event with a configurable amount of time in minutes. This timer is non looping and the reference is cached for later use before the game start boolean is set true initating many of the game active mechanics on other scripts. Then when the game is over it compares the length of the the HeldItems array on all item boxes in the scene and awards the win(or tie in some circumstances) to the player/s with the most items in there equivelenet box.
+
+## New Approaches
+
+This project was the first time I was tasked with working in team with mutiple people for a unreal game so this was a new experiance working in collaberation and keeping TABS on evreyone in my team and it came with positves and negitives. For one it allowed me to focus on what I do best as now I had other people who could do work towards their personal talents(modelling,sound design,etc) and i could focus on mine. However as team work typically goes one weak link can bring down an entire project so ensuring that evreyone was on the same page and expecially that I also kept evreyone updated with what I was doing was definatly a new experiance that I have learnt from for projects after this.
+
+## User Testing 
+
+When it came to user testing I learnt a lot about how to make a game that could be tested by others, as I found when it came to user testing it was quite difficult to do this as at certain points the game was more of a collection of parts which are good on their own but did not realy make a good whole meaning that users could not easyly test the game and resulting in them not being able to give amazing feedback which in the future I will definitely work on doing better.
+
+However this is not say I got zero feedback and the feedback I got at differnt intervals did help the make the game better thoughout development. Some of the feedback being:
+
+* The load times between levels in the Menu
+* The game felt too snappy 
+* The players could somehow skip past the kill box
+
+These being all problems that could be rectafied with a bit of debugging and some balencing of values. For example to improve the game feeling too snappy, values in places like the player movement were adjusted to fix for this issue.
+
+However the main thing we got out of testing was the advice to just in general in the early stages of development to work on features and work towards the goal of having that user playable MVP as early as possible becasue it cant be understated how important user testing is in evrey stage of a project expecially the early stages
+
+## Instruction to Install / Run
+
+To run my project:
+
+Go to the itch.io page for this game using this [**Link**](https://gingerprogrammer.itch.io/plunder-party)
+
+Follow the steps outlined on the itch page
+
+## Reflection 
+
+### Research Effectiveness
+
+The research I did in combination with my designers, unlike the [first project](https://github.com/GingerNinjaProgramming/HorrorThing) I had done in unreal was farily efficient as it very much helped me create the systems I wanted to create and learn about the different options I had when making the mechanics early on. This allowing me to better informed when I went from the theoretical to the more pratical stages of game development. This includes as mentioned before the extensive research I did into different ragdolls in games and how they behaved/worked and which kind of ragdolls I wanted in my game.
+
+### Positive anaylisis
+
+On my postive reflection, this project general code structure, at least in my opinion, was well structured and modular allowing for easy project scalablity if needed and also allowing for transferable mechanics between minigames and even between this game and future games that I may create. As a big goal of all code I write is to make it as reuseable as possible to prevent having to redo simple mechanics in future projects and just in general speed up my personal workflow, even eventually taking a collection of tools made into this project and morphing these into my own plugin.
+
+### Negitive anaylisis
+
+On my negitive anaylisis of this project it could of done with more geneal polish thoughout and more work on certain features to make them feel easyier to use for the player. Along with this as this was one of my first times working in a larger team for a project there was defiently some growing pains to do with that and expecially with my other developer more delegation would be important as I belive this could of allowed me to focus on the priorly mentioned polish and ensured that the mechanics I did make were as perfect as they ever could be with the extra time that delegation would of provided
+
+### Next Time
+
+Next time, I'm going to try and work on letting go of some of the responsibity onto my other capable developers in my project to allow me more time on the features that I am working on and not have to worrie about missing out on anything. Along with this I want to be able to learn how to make systems with more finer polishing behind them which just comes down to doing more research on the things I want to make and the systems unreal provides.
+
+### New Intrests 
+
+As far as what is now guiding my intrests into future projects I will make thoughout my life, I want to work more on creating complex repeatable behaviours that I can have inside of my own personal components and libarys that I can use across other projects and even in the future possibly publish for other people to use as I find my self creating my own personal soltions to problems that bug me and in the circumstance that someone is also having these problems, I would love to be the person to create that solution to allow them to work of the things that intrest them while I make the tools that intrest me, as no problem has only even happened to one person.
+
+## Declared Asset
+
+Version Control: **Git / Github**
+
+IDE: **Blueprints / UE Visual Scripting**
+
+Engine: **Unreal Engine 5.6.1**
+
+AI Used:
+
+* Chatgpt - Debugging / Code Questions
+* Unreal Doc AI - Code Questions
+
+## Credits && Sources
+
+‘Last Spurt’ - Umamusume: Cinderella Gray Unofficial OST - https://www.youtube.com/watch?v=ik93qlSSs2k
+
+**All Models and Other Music/Sounds Created by Designers working on project**
+
 
 ## Bibliography
 
@@ -224,26 +330,3 @@ PontyPants (s.d.) At: https://www.youtube.com/@Pontypants (Accessed  13/04/2026)
 Physical Animation: The Ultimate Starter Guide [UE4/UE5] (2022) Directed by PrismaticaDev. At: https://www.youtube.com/watch?v=46NfgXlnCzM (Accessed  13/04/2026).
 
 Unreal Engine 5 Tutorial -  Local Multiplayer Part 1: Adding Players (2025) Directed by Ryan Laley. At: https://www.youtube.com/watch?v=gB0pXsJ6LQg (Accessed  13/04/2026).
-
-
----
-
-## Declared Assets
-
-You must declare any content that was **not entirely created by you**, or was **modified with the aid of AI tools**. This includes:
-
-* Third-party 3D models, audio, textures, or code
-* Code snippets from tutorials or forums
-* AI-generated or AI-assisted assets (e.g. ChatGPT, GitHub Copilot, DALL·E)
-
-List these clearly, with context where needed.
-
-Example:
-
-> The following assets were created or modified with the use of GPT-4o:
->
-> * `Test.cs` – generated structure with manual revision
-> * `UIAudioManager.cs` – refactored with Copilot suggestions
-> * `DevelopmentJournal.html` – generated layout and headings
-
----
