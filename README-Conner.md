@@ -330,26 +330,3 @@ PontyPants (s.d.) At: https://www.youtube.com/@Pontypants (Accessed  13/04/2026)
 Physical Animation: The Ultimate Starter Guide [UE4/UE5] (2022) Directed by PrismaticaDev. At: https://www.youtube.com/watch?v=46NfgXlnCzM (Accessed  13/04/2026).
 
 Unreal Engine 5 Tutorial -  Local Multiplayer Part 1: Adding Players (2025) Directed by Ryan Laley. At: https://www.youtube.com/watch?v=gB0pXsJ6LQg (Accessed  13/04/2026).
-
-
----
-
-## Declared Assets
-
-You must declare any content that was **not entirely created by you**, or was **modified with the aid of AI tools**. This includes:
-
-* Third-party 3D models, audio, textures, or code
-* Code snippets from tutorials or forums
-* AI-generated or AI-assisted assets (e.g. ChatGPT, GitHub Copilot, DALL·E)
-
-List these clearly, with context where needed.
-
-Example:
-
-> The following assets were created or modified with the use of GPT-4o:
->
-> * `Test.cs` – generated structure with manual revision
-> * `UIAudioManager.cs` – refactored with Copilot suggestions
-> * `DevelopmentJournal.html` – generated layout and headings
-
----
