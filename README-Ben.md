@@ -2,166 +2,178 @@
 
 **Unit Name:** Gameplay Design and Programming
 
-**Student Names:** Benjamin Sibley
+**Student Name:** Benjamin Sibley
 
-**Student IDs:** 2502747
+**Student ID:** 2502747
 
-**Total Word Count:** probably like 12
+[**Build Link:**] (https://gingerprogrammer.itch.io/plunder-party)
 
-**API Reference Link:** \[URL]
+**Video Demonstrations:**
 
-**User Guide Link:** \[URL]
+<video controls src="https://file.garden/ZhvFhTnnzDVjn5ib/PlunderParty/DeckBrawlDemo.mp4" title=""></video>
 
-**Build Link:** \[URL or Embed]
+<video controls src="https://file.garden/ZhvFhTnnzDVjn5ib/PlunderParty/ScrambledBootyDemo.mp4" title=""></video>
 
-**Video Demonstration Link:** \[URL or Embed]
-
----
-
-## Abstract *(Approx. 5–10% of word count)*
-
-Summarise your task, goals, approach, and final outcome. What was the intent of your work? What is the most important thing to know before reading on?
-
-Our initial task was to create a party game themed around pirates with 3 separate 
+<video controls src="https://file.garden/ZhvFhTnnzDVjn5ib/PlunderParty/CannonballPanicDemo.mp4" title=""></video>
 
 ---
 
-## Research *(Approx. 20-30% of word count)*
+## Project Outline
 
-### What sources or references have you identified as relevant to this task?
+We were tasked with creating a 3D multiplayer party game themed around pirates with the game "Plunder Party" that contained 3 unique minigames, we decided to create the following:
 
-Reflect on the **type** and **relevance** of sources explored. Justify your research direction in relation to the task brief and target outcomes.
+- A Top Down Brawler style minigame where the players compete to be the last standing by attacking eachother and knocking eachother off of the map  
+- A Collection Based minigame where the players must collect treasure and then take it to their respective chest to store it to gain points, with the winning player being the one with the most points at the end of a timer.  
+- A Survival Based minigame where players are on an island being fired at by cannonballs shot from a rotating ship and must dodge them, with the last player standing being the winner.  
 
-* What types of sources did you explore and why?
-* Which types of sources did you avoid and why?
-* How does the research relate to the user experience, technical approach, or creative aim?
-
-#### Sources
-
-For each source, provide:
-
-1. An **opening paragraph** describing the source's creator/publisher, reputation, and relevance.
-2. A **bullet list** of what you analysed or learned from it.
-3. A **closing paragraph** evaluating its usefulness or limitations.
-
-You may include both **academic resources** and **industry examples** (e.g. documentation, games, developer talks). You are encouraged to include plenty of images, videos and diagrams.
-
-> You should have at least 1 game source as inspiration, 1 documentation/tutorial source and 1 academic source at a minimum.
+Due to its nature as a party game it was decided to create a more lighthearted style of game focusing on comedy, this was highlighted with ragdoll-style characters being left behind on player death, similar to games such as Totally Accurate Battle Simulator. The game maintains its pirate theming through the aesthetic design of all 3 minigames, and their general premises, battling, collecting treasure, and dodging cannonballs.
 
 ---
 
-## Implementation *(Approx. 30–40% of word count)*
+## Research 
+
+
+One important aspect of our game is the inclusion of ragdoll characters, for this we were inspired by popular games including Gang Beasts and Totally Accurate Battle Simulator
+
+*Figure 1: Trailer Footage of Totally Accurate Battle Simulator*
+
+![](https://file.garden/ZhvFhTnnzDVjn5ib/PlunderParty/tabitha%20gif.gif)
+
+*Figure 2: Trailer Footage of Gang Beasts*
+
+![](https://file.garden/ZhvFhTnnzDVjn5ib/PlunderParty/gang%20breasts.gif)
+
+These ragdoll games are unique as their overexaggerated physics increase the comedic potential in the games which makes them work better as lighthearted party games.
+
+I was tasked with the development of the entirety of the third minigame, Cannonball Panic, for inspiration, I looked at the Mario Party 1 Minigame, Bombs Away, which has a very similar premise to our game.
+
+[Video of the Mario Party 1 Minigame, Bombs Away](https://www.youtube.com/watch?v=9uXEjvIiM2E)
+
+One notable differences between this and our minigame is that the Mario Party 1 Minigame has a stationary ship, while our minigame will require a rotating cannon around the island that the player's must dodge on. In order to implement this into the game, I chose to use a spline in order to create the path that the cannon follows, for this I used a video tutorial to setup the spline and make the cannon follow it.
+
+*Figure 1: A spline in the Cannonball Panic minigame*  
+![](https://file.garden/ZhvFhTnnzDVjn5ib/PlunderParty/boatspline.png)
+
+
+
+I also used a video tutorial for assistance when implementing rebinding controls. We chose to implement rebinding controls as an essential aspect of any game in the modern era of games.
+
+---
+
+## Implementation
 
 ### What was your development process and how did decisions evolve?
 
-Describe your technical and creative approach, including:
+The BP_OrbitingBoat blueprint will trigger the Move Object function when play begins.
 
-* Planning, ideation, and iteration
-* Feedback received and how it was integrated
-* New tools, workflows, or systems explored
+![](https://file.garden/ZhvFhTnnzDVjn5ib/PlunderParty/Screenshot%202026-04-24%20004046.png)
 
-#### Example Code Snippet
+The Move Object function will set the play rate of the timeline T_Move to the Time to Complete divided by 1, this ensures that the timeline T_Move will play for the time to complete, by default 5 seconds.
 
-```csharp
-using UnityEngine;
+![](https://file.garden/ZhvFhTnnzDVjn5ib/PlunderParty/image.png)
 
-public class HelloWorld : MonoBehaviour 
-{
-    public void Start() 
-    {
-        Debug.Log("Hello World!");
-    }
-}
-```
+A reference to the spline is taken and used to get the length of the spline.
+![](https://file.garden/ZhvFhTnnzDVjn5ib/PlunderParty/im2age.png)
 
-*Figure 2: Example code snippet using Unity's `Start()` method.*
+the spline length is used as the Alpha input for a Lerp, which takes the move track of the timeline T_Move as the ending, and 0 as the beginning.
+![](https://file.garden/ZhvFhTnnzDVjn5ib/PlunderParty/aaa.png)
 
-#### Example Image
+This Lerp is used to get the location and rotation of the distance of the cannon along the spline. 
+![](https://file.garden/ZhvFhTnnzDVjn5ib/PlunderParty/afa.png)
 
-![Example](https://beforesandafters.com/wp-content/uploads/2021/05/Welcome-to-Unreal-Engine-5-Early-Access-11-16-screenshot.png)
-*Figure 3: Unreal packaging menu interface.*
+Then, on the timeline T_Move's update, the Actor Location and Rotation is set to the distance along the spline
+![](https://file.garden/ZhvFhTnnzDVjn5ib/PlunderParty/chungus.png)
 
-### What creative or technical methods did you try?
+This creates the effect of the orbiting around the island.
 
-Were any methods unfamiliar or experimental? Did they succeed? Did they change your approach?
+In order to have the cannonballs fire, I used the TIck Event with a delay of 2 seconds to trigger the Fire Event.
 
-### Did you experience any technical challenges?
+![](https://file.garden/ZhvFhTnnzDVjn5ib/PlunderParty/aaaaaaaa.png)
 
-How did you address problems, bugs, or limitations?
+The Fire Event will first get all actors of the player class, then place them into an array, it will then take a random element from that array and set it as the targetted player.
+![](https://file.garden/ZhvFhTnnzDVjn5ib/PlunderParty/awajfbaev.png)
+
+Then, it gets the transformation of the targetted player, as well as the cannon's location and suggests a projectile velocity using the two locations, starting at the cannon.
+
+![](https://file.garden/ZhvFhTnnzDVjn5ib/PlunderParty/nobody%20will%20read%20this%20but%20i%20love%20yuri.png)
+
+The Cannonball is then spawned, following this velocity
+
+![](https://file.garden/ZhvFhTnnzDVjn5ib/PlunderParty/spawncannonynyntnn.png)
+
+Rebinding controls were implemented, as control rebinding is universal in modern games, and would be the expectation of the audience.
+
+The WP_InputSlot Widget handles the visuals and button inputs. 
+
+![](https://file.garden/ZhvFhTnnzDVjn5ib/PlunderParty/good%20image.png)
+
+When a button is pressed, it checks to ensure it is valid and then triggers the On Key Button event, setting the Active Input Slot for use in the WP_Rebind widget.
+
+![](https://file.garden/ZhvFhTnnzDVjn5ib/PlunderParty/i%20miss%20firefly.png)
+
+WP_Rebind, on its construction, triggers a custom function “Add Input Rows”.
+
+![](https://file.garden/ZhvFhTnnzDVjn5ib/PlunderParty/heavenly%20restriction%3A%20divine%20lock%20in%20of%20destruction.png)
+
+The Add Input Rows function creates a list of controls and their current key by getting the user settings of the owning player, and using it to find the player's mappings, before placing this into an array.
+
+![](https://file.garden/ZhvFhTnnzDVjn5ib/PlunderParty/one1.png)
+
+For each key in the array, a WP_InputSlot widget is created, this allows for the addition of as many keys as needed to the options.
+
+![](https://file.garden/ZhvFhTnnzDVjn5ib/PlunderParty/on2.png)
+
+The Text both for the Input Action and the button are then set on the WP_InputSlot widget.
+
+![](https://file.garden/ZhvFhTnnzDVjn5ib/PlunderParty/o3.png)
 
 ---
 
-## Testing *(Approx. 10–15% of word count)*
+### New Approaches
 
-### What testing methods did you use?
+When developing this project, I newly learnt how to collaborate and work in a team within Unreal Engine, which was unique as rather than creating a game alone I was delegated specific tasks to do. Additionally I had to make use of projectile physics which will likely be useful in any future projects. Timelines and Splines were also new to me, and I can also see being useful in the future, especially for making objects follow a set path.
 
-* Did you conduct internal testing, peer testing, or user testing?
-* What were your key goals in testing?
-* What did you observe or learn from testing?
-* How did testing influence the final result?
+## User Testing 
 
-You may include screenshots, graphs, tables, or embedded videos to demonstrate tests and results.
+User playtesting was enlightening with some useful feedback both towards the earlier and later stages of the project, which greatly assisted with the fixing of bugs.
 
-| Tester | Platform | Device Specs           | Test Type      | Bugs Found | Avg. FPS | Severity (1–5) | Repro Steps Provided | Feedback Summary                                                       |
-| ------ | -------- | ---------------------- | -------------- | ---------- | -------- | -------------- | -------------------- | ---------------------------------------------------------------------- |
-| User A | Chrome   | i7, GTX 1060, 16GB RAM | Internal (Dev) | 3          | 60       | 2, 3, 4        | Yes                  | “Controls are responsive. Minor stutter near large particle emitters.” |
-| User B | Firefox  | Ryzen 5, 8GB RAM       | Peer Playtest  | 2          | 58       | 1, 2           | No                   | “Menu system works well, but level loading feels slow.”                |
-| User C | Edge     | i5, Intel UHD 620      | External User  | 5          | 45       | 2, 3, 4, 3, 2  | Yes                  | “Performance drops during explosions; some UI overlaps text.”          |
-| User D | Chrome   | M1 MacBook Air         | Guided Test    | 1          | 62       | 2              | Yes                  | “Tutorial is clear. Suggested adding a visual checkpoint marker.”      |
-| User E | Safari   | iPhone 12 Safari       | Blind Test     | 4          | 50       | 2, 3, 3, 4     | Partial              | “Enjoyed art style. Unclear level goals; needed more on-screen hints.” |
+One notable bug that was fixed was the players not dying when they should and simply returning to the play area. This was caused by the player characters respawning by mistake and was quickly fixed.
 
-*Figure 4: User Testing Data.*
+User Feedback was mostly positive overall, but mild imperfections like slow loading times were able to be addressed and fixed thanks to user testing.
 
 ---
 
-## Critical Reflection *(Approx. 10–15% of word count)*
+## Critical Reflection
 
 ### What went well?
 
-* What strengths or successes stood out in the final piece?
-* Did anything exceed expectations?
+Overall I am pleased with my contribution to the project, as I successfully was able to create the entirety of the Cannonball Panic minigame and had meaningful contributions to the UI and Menus.
 
 ### What could be improved or done differently next time?
 
-* Were there things that didn’t work? Why?
-* What would you try differently with more time or resources?
+ I feel that in a future team project I would be able to effectively contribute more than I did in this one, this issue was further complicated in this instance by my late entry to this group, around 2 or 3 weeks in.
 
 ---
 
 ## Bibliography
 
-Please use [UCA's Harvard Referencing Format](https://mylibrary.uca.ac.uk/referencing) for all citations.
-
-Example:
-
-> Rollings, A. and Adams, E. (2003) *Andrew Rollings and Ernest Adams on Game Design*. New Riders Publishing.
+Mario Party (1988)  
+Totally Accurate Battle Simulator on Steam (s.d.) At: https://store.steampowered.com/app/508440/Totally_Accurate_Battle_Simulator/ (Accessed  24/04/2026).  
+Gang Beasts (s.d.) At: https://gangbeasts.game (Accessed  24/04/2026).  
+How To Make An Object Follow A Spline Path - Unreal Engine 5 Tutorial (2025) Directed by Matt Aspland. At: https://www.youtube.com/watch?v=fm0_W6YV_8k (Accessed  23/04/2026).  
+Enhanced Input Key Rebinding (2025) Directed by Alamar’s Dev Domain. At: https://www.youtube.com/watch?v=Iy5JwCYx1fE (Accessed  24/04/2026).  
+Unreal Engine 5.6 Documentation | Unreal Engine 5.6 Documentation | Epic Developer Community (s.d.) At: https://dev.epicgames.com/documentation/unreal-engine/unreal-engine-5-5-documentation (Accessed  24/04/2026).
 
 ---
 
 ## Declared Assets
 
-You must declare any content that was **not entirely created by you**, or was **modified with the aid of AI tools**. This includes:
+Version Control: **Git / Github**
+IDE: **Blueprints / UE Visual Scripting**
+Engine: **Unreal Engine 5.6.1**
 
-* Third-party 3D models, audio, textures, or code
-* Code snippets from tutorials or forums
-* AI-generated or AI-assisted assets (e.g. ChatGPT, GitHub Copilot, DALL·E)
+## Credits && Sources
 
-List these clearly, with context where needed.
+‘Last Spurt’ - Umamusume: Cinderella Gray Unofficial OST - https://www.youtube.com/watch?v=ik93qlSSs2k
 
-Example:
-
-> The following assets were created or modified with the use of GPT-4o:
->
-> * `Test.cs` – generated structure with manual revision
-> * `UIAudioManager.cs` – refactored with Copilot suggestions
-> * `DevelopmentJournal.html` – generated layout and headings
-
----
-
-## Tips for Success
-
-* Use plenty of **images, code snippets, drawn diagrams, tables and embedded media** to support your writing.
-* Use **inline citations** for everything that influenced your work, including software and games. Include as many **hyperlinks** as possible for easier navigation to external sources.
-* Reference **documentation, tutorials**, and **games** just like academic sources.
-* Word count is a guideline – ±10% is allowed.
-* You are allowed to use AI tools, but you **must declare** them under *Declared Assets*.
+**All Models and Other Music/Sounds Created by Designers working on project**
