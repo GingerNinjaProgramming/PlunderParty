@@ -6,7 +6,8 @@
 
 **Student ID:** 2502747
 
-[**Build Link:**] (https://gingerprogrammer.itch.io/plunder-party)
+[**Itch Link:**] https://gingerprogrammer.itch.io/plunder-party  
+[**Github Repo:**] (https://github.com/GingerNinjaProgramming/PlunderParty)
 
 **Video Demonstrations:**
 
